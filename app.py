@@ -45,8 +45,7 @@ body {
 # -----------------------------
 # LOAD DATA
 # -----------------------------
-DATA_PATH = "/Users/sanjana/Desktop/Hype-Predictor/Data"
-df = pd.read_csv(f"{DATA_PATH}/enhanced_data.csv")
+df = pd.read_csv("enhanced_data.csv")
 
 # -----------------------------
 # HYPE SCORE
@@ -277,7 +276,7 @@ st.plotly_chart(fig, use_container_width=True)
 # TREND + FORECAST
 # -----------------------------
 st.subheader("📈 Trend + Forecast")
-trends = pd.read_csv(f"{DATA_PATH}/google_trends.csv")
+trends = pd.read_csv("google_trends.csv")
 series = trends[selected]
 
 fig = px.line(trends, x="date", y=selected)
