@@ -1,143 +1,139 @@
-# 🌈 Hype Radar
+# 🌈 Hype Radar — Product Intelligence System
 
-**A system for understanding how attention turns into product momentum**
+**A multi-source hype intelligence system that turns fragmented attention signals into product momentum insights and decision recommendations.**
 
 ---
 
 ## 🚀 Live App
 
-https://hype-radar-sanjana.streamlit.app
+👉 [hype-radar-sanjana.streamlit.app](https://hype-radar-sanjana.streamlit.app)
 
 ---
 
 ## Where this started
 
-Why do some products suddenly feel like they are everywhere?
+Why do some products suddenly feel like they're everywhere?
 
-One week you’ve barely heard of them.
-The next week they’re in videos, people are discussing them, articles are being published — and suddenly they feel important.
+One week you've barely heard of them. The next, they're in videos, discussions, articles — and suddenly they feel important.
 
-That shift in attention is what we usually call “hype.”
-But in practice, it’s difficult to measure — and even harder to interpret.
+That shift in attention is what we call "hype." But in practice, it's difficult to measure — and even harder to interpret.
 
 ---
 
 ## The business problem
 
-In real-world scenarios, product attention is spread across multiple platforms:
+Product attention is spread across multiple platforms:
 
-* Search data shows curiosity
-* Social platforms show discussion
-* Video content shows engagement
-* News shows amplification
+- Search data shows curiosity
+- Social platforms show discussion
+- Video content shows engagement
+- News shows amplification
 
-Each of these captures a different piece of the story.
+Each captures a different piece of the story. The challenge is that these signals are fragmented and often misleading when viewed individually.
 
-The challenge is that these signals are fragmented and often misleading when viewed individually.
-
-This makes it difficult to answer key questions:
-
-* Is this product gaining traction or losing interest?
-* Is the attention consistent or just temporary noise?
-* Should action be taken now, or later?
+This makes it hard to answer:
+- Is this product gaining traction or losing interest?
+- Is the attention consistent or just temporary noise?
+- Should action be taken now, or later?
 
 ---
 
-## Approach
+## Products tracked
 
-Hype Radar treats this as a **multi-source signal integration problem**.
-
-Instead of relying on one metric, it combines multiple indicators into a single framework that captures both:
-
-* current visibility
-* and direction of change
+| Product | Category |
+|---|---|
+| iPhone 17 | Consumer Tech |
+| Nvidia RTX 5090 | PC Hardware |
+| PS5 Pro | Gaming |
+| Air Jordan 11 | Sneakers / Fashion |
+| Owala FreeSip | Lifestyle / Wellness |
 
 ---
 
-## How the system works
+## End-to-end pipeline
+
+This project follows a structured 11-notebook analytical workflow:
+
+```
+01_Google_Trends_Data     → Collected via pytrends (no API key required)
+02_Reddit_Data            → Collected via Reddit PRAW API
+03_YouTube_Data           → Collected via YouTube Data API v3
+04_NewsAPI_Data           → Collected via NewsAPI
+05_Merge_Raw              → Combined all 4 sources into one dataset
+06_EDA                    → Exploratory data analysis across signals
+07_Clean_Data             → Handled nulls, outliers, standardization
+08_Feature_Engineering    → Created derived features for scoring
+09_Hype_Score             → Weighted multi-signal hype score
+10_Momentum_Analysis      → Direction and velocity of interest over time
+11_Hype_Prediction        → Final score, classification, and recommendation
+```
+
+All data is real — collected from live APIs, not simulated.
+
+---
+
+## How the scoring works
 
 Each product is evaluated across four signals:
 
-* Google Trends → search behavior
-* Reddit → discussion
-* YouTube → content engagement
-* News → media coverage
+- **Google Trends** → search behavior
+- **Reddit** → community discussion volume
+- **YouTube** → content engagement
+- **News** → media amplification
 
 ### 1. Standardization
-
 All signals are normalized (Z-score) and scaled to a 0–100 range.
 
 ### 2. Hype Score
+A weighted composite representing overall visibility:
 
-A weighted score represents overall visibility:
-
-* YouTube: 30%
-* Google Trends: 25%
-* News: 25%
-* Reddit: 20%
+| Signal | Weight |
+|---|---|
+| YouTube | 30% |
+| Google Trends | 25% |
+| News | 25% |
+| Reddit | 20% |
 
 ### 3. Momentum Analysis
-
-A separate metric tracks whether interest is:
-
-* increasing
-* stable
-* declining
+A separate metric tracks whether interest is increasing, stable, or declining.
 
 ### 4. Consistency Adjustment
-
-Signals are evaluated for variability.
-More consistent trends are treated as more reliable.
+Signals are evaluated for variability — more consistent trends are treated as more reliable.
 
 ### 5. Final Score
 
-Final Score =
-**70% Hype + 30% Momentum**
+```
+Final Score = 70% Hype Score + 30% Momentum Score
+```
 
 ---
 
-## What this enables
+## Recommendation engine
+
+The system outputs one of five decision labels:
+
+| Label | Condition |
+|---|---|
+| 🚀 Buy Now | Strong upward momentum |
+| 📈 Emerging | Momentum building, early growth |
+| 👀 Watch Closely | Stable, could go either way |
+| ⚠️ Overhyped | High hype but fading momentum |
+| ❌ Avoid | Low interest and weak momentum |
+
+---
 
 ## 📸 Inside the app
 
-Here’s a quick look at how the system translates data into insights:
-
-![Dashboard](Screenshot1.png)
-![Recommendation](Screenshot2.png)
-![Trend](Screenshot3.png)
-
-The system converts raw data into decision-oriented outputs:
-
-* Ranked list of products
-* Signal breakdown across platforms
-* Momentum-based outlook
-* Recommendation:
-
-  * 🚀 Buy Now
-  * 📈 Emerging
-  * 👀 Watch Closely
-  * ⚠️ Overhyped
-  * ❌ Avoid
-* Human-readable explanation linked to real-world behavior
+[![Dashboard](Screenshot1.png)](Screenshot1.png)
+[![Recommendation](Screenshot2.png)](Screenshot2.png)
+[![Trend](Screenshot3.png)](Screenshot3.png)
 
 ---
 
-## A simple example
+## Why timing matters
 
-A product like the iPhone often shows high hype immediately after launch, followed by a gradual decline as attention shifts to the next release cycle.
-
-On the other hand, a product gaining traction through social media may start with lower hype but strong upward momentum.
-
-Both situations involve attention — but they imply very different decisions.
-
----
-
-## Why this matters
-
-In practice, timing matters as much as popularity:
-
-* High hype + declining momentum → potential overexposure
-* Moderate hype + rising momentum → early opportunity
+- High hype + declining momentum → potential overexposure
+- Moderate hype + rising momentum → early opportunity
 
 This system is designed to capture that difference.
 
@@ -145,33 +141,61 @@ This system is designed to capture that difference.
 
 ## Tech stack
 
-* Python
-* Streamlit
-* Pandas
-* NumPy
-* Plotly
+| Tool | Purpose |
+|---|---|
+| Python | Core language |
+| Streamlit | Interactive dashboard |
+| Pandas / NumPy | Data processing |
+| Plotly | Visualizations |
+| pytrends | Google Trends API |
+| PRAW | Reddit API |
+| YouTube Data API v3 | Video engagement data |
+| NewsAPI | News coverage data |
+
+---
+
+## Setup
+
+```bash
+git clone https://github.com/gangulasanjanareddyG/Hype-Radar-intelligence-system
+cd Hype-Radar-intelligence-system
+pip install -r requirements.txt
+```
+
+Create a `.env` file based on `.env.example` and add your API keys:
+
+```
+REDDIT_CLIENT_ID=
+REDDIT_SECRET=
+REDDIT_USER_AGENT=
+YOUTUBE_API_KEY=
+NEWS_API_KEY=
+```
+
+Then run:
+
+```bash
+streamlit run app.py
+```
 
 ---
 
 ## Future improvements
 
-* Real-time data integration
-* More advanced forecasting models
-* Product comparison features
-* Expanded product coverage
+- Real-time data refresh on app load
+- Forecasting with time-series models (Prophet / ARIMA)
+- Expanded product coverage across more categories
+- User-defined product search
 
 ---
 
-## About  
+## About
 
-Sanjana Reddy Gangula
-
-Master’s student in Business Analytics at California State University, East Bay  
+**Sanjana Reddy Gangula**
+Master's student in Business Analytics · California State University, East Bay
 
 Interested in building data-driven systems that connect real-world behavior with decision-making.
 
 ---
 
-At its core, this project is about turning scattered signals into clearer decisions.
-This was an attempt to make product hype easier to understand — not just to measure.
-If you made it this far, thank you for reading!
+*At its core, this project is about turning scattered signals into clearer decisions.*
